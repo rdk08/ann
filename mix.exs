@@ -8,6 +8,8 @@ defmodule ANNEx.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
      elixirc_paths: elixirc_paths(Mix.env)]
   end
 
@@ -19,6 +21,6 @@ defmodule ANNEx.Mixfile do
   end
 
   defp deps do
-    []
+    [{:excoveralls, "~> 0.6", only: :test}]
   end
 end
