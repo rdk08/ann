@@ -1,5 +1,5 @@
 defmodule ANNEx.Math.LinearTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias ANNEx.Math.Linear
 
   test "linear function" do

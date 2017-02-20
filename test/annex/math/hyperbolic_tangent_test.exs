@@ -1,5 +1,5 @@
 defmodule ANNEx.Math.HyperbolicTangentTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias ANNEx.Math.HyperbolicTangent
 
   test "hyperbolic tangent function" do

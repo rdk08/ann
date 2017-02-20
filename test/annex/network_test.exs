@@ -1,5 +1,5 @@
 defmodule ANNEx.NetworkTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias ANNEx.{Math, Network}
   alias ANNEx.Test.{Fake, Values}
 

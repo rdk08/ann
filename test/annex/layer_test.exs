@@ -1,5 +1,5 @@
 defmodule ANNEx.LayerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias ANNEx.{Layer, Math, Neuron, Signal, Test}
 
   test "build/1" do

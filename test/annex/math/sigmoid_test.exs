@@ -1,5 +1,5 @@
 defmodule ANNEx.Math.SigmoidTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias ANNEx.Math.Sigmoid
 
   test "sigmoid function" do
