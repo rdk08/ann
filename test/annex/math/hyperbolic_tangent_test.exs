@@ -22,7 +22,7 @@ defmodule ANNEx.Math.HyperbolicTangentTest do
     input = %{
       values: [-6, -1, 0, 1 , 6]
     }
-    output = Enum.map(input.values, &HyperbolicTangent.call(:derivative, &1))
+    output = Enum.map(input.values, &HyperbolicTangent.call(&1, :derivative))
     expected_output = [
       2.45765474053327e-5,
       0.4199743416140261,

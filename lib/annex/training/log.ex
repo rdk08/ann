@@ -1,15 +1,14 @@
 defmodule ANNEx.Training.Log do
-  @doc """
-  Prints epoch summary.
-  """
+  @spec epoch(keyword, integer, list(float)) :: :ok | :noop
   def epoch(log_opts, epoch_num, errors) do
     case log_opts[:epoch_info] do
-      true -> IO.puts(_epoch(epoch_num, errors))
+      true -> IO.puts(epoch_info(epoch_num, errors))
       _ -> :noop
     end
   end
 
-  def _epoch(epoch_num, errors) do
+  @spec epoch_info(integer, list(float)) :: String.t
+  def epoch_info(epoch_num, errors) do
     [format_epoch_num(epoch_num), format_average_error(errors)]
     |> Enum.join(", ")
   end
@@ -21,17 +20,16 @@ defmodule ANNEx.Training.Log do
     Enum.reduce(errors, 0, &(&2 + &1)) / length(errors)
   end
 
-  @doc """
-  Prints all information about specific iteration.
-  """
+  @spec iteration(keyword, list(float), list(float), list(float), float) :: :ok | :noop
   def iteration(log_opts, input, output, exp_output, total_error) do
     case log_opts[:iteration_info] do
-      true -> IO.puts(_iteration(input, output, exp_output, total_error))
+      true -> IO.puts(iteration_info(input, output, exp_output, total_error))
       _ -> :noop
     end
   end
 
-  def _iteration(input, output, exp_output, total_error) do
+  @spec iteration_info(list(float), list(float), list(float), float) :: String.t
+  def iteration_info(input, output, exp_output, total_error) do
     [format_input(input),
      format_output(output),
      format_exp_output(exp_output),

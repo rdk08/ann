@@ -4,7 +4,7 @@ defmodule ANNEx.NetworkTest do
   alias ANNEx.{Math, Network}
   alias ANNEx.Test.{Fake, Values}
 
-  test "build/1 - builds network structure based on provided config struct" do
+  test "build/2 - builds network structure based on provided config struct" do
     input = %{
       config: %Network.Config{
         layers: [2, 3, 2],
@@ -17,7 +17,7 @@ defmodule ANNEx.NetworkTest do
     assert output == expected_output
   end
 
-  test "process/2 - returns new network state with output values" do
+  test "process/2 - returns new network state and output for given input values" do
     input = %{
       network: Values.Network.initial_with_predefined_weights,
       values: [0.2, 0.5]
@@ -30,7 +30,7 @@ defmodule ANNEx.NetworkTest do
     assert output == expected_output
   end
 
-  test "process!/2 - returns network output values for given input" do
+  test "process!/2 - returns network output for given input values" do
     input = %{
       network: Values.Network.initial_with_predefined_weights,
       values: [0.2, 0.5]

@@ -3,7 +3,7 @@ defmodule ANNEx.LayerTest do
 
   alias ANNEx.{Layer, Math, Neuron, Signal, Test}
 
-  test "build/1" do
+  test "build/2 - builds layer with specified number of neurons" do
     input = %{
       io: %{random: Test.Fake.Random}
     }
@@ -21,30 +21,13 @@ defmodule ANNEx.LayerTest do
       }
     }
     output = Layer.process(input.tuple)
-    assert {
-      %Layer{
-        bias: 0.15,
-        neurons: [
-          %Neuron{
-            delta: _,
-            output: _,
-            signals: [%Signal{value: 0.5, weight: _}, %Signal{value: 0.2, weight: _}],
-            sum: _
-          },
-          %Neuron{
-            delta: _,
-            output: _,
-            signals: [%Signal{value: 0.5, weight: _}, %Signal{value: 0.2, weight: _}],
-            sum: _
-          }
-        ]
-      },
-      _,
-      Math.Sigmoid
-    } = output
+    assert {%Layer{bias: 0.15, neurons: [
+      %Neuron{signals: [%Signal{value: 0.5}, %Signal{value: 0.2}]},
+      %Neuron{signals: [%Signal{value: 0.5}, %Signal{value: 0.2}]}
+    ]}, _, Math.Sigmoid} = output
   end
 
-  test "process/1" do
+  test "process/1 - returns new layer struct and output values" do
     input = %{
       tuple: {
         Test.Values.Layer.initial_with_predefined_weights,

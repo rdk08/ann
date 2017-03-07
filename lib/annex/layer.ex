@@ -2,27 +2,23 @@ defmodule ANNEx.Layer do
   alias __MODULE__, as: Layer
   alias ANNEx.{Neuron, Random}
 
-  defstruct bias: nil,
-            neurons: []
+  defstruct neurons: [],
+            bias: nil
 
   @io %{random: Random}
 
-  @doc """
-  Builds layer.
-  """
+  @type t :: %Layer{neurons: list(%Neuron{}), bias: float | nil}
+
+  @spec build(integer, map) :: t
   def build(num_neurons, io \\ @io) when num_neurons > 0 do
-    neurons = Enum.map(1..num_neurons, fn (_) -> Neuron.build end)
+    neurons = for _ <- 1..num_neurons, do: Neuron.build
     %Layer{neurons: neurons, bias: io.random.bias}
   end
 
-  @doc """
-  Updates layer state.
-  """
+  @spec update(t, map) :: t
   def update(%Layer{}=layer, %{}=changes), do: Map.merge(layer, changes)
 
-  @doc """
-  Processes layer and returns new layer state.
-  """
+  @spec process({t, list(float), module}) :: {t, list(float), module}
   def process({layer, values, activation_fn}) do
     neurons =
       layer.neurons

@@ -11,7 +11,9 @@ defmodule ANNEx.Training.BackpropagationTest do
     {:ok, network: network, output: output}
   end
 
-  test "process/4 - updates signal weights", %{network: network, output: output} do
+  test "process/4 - updates network with backpropagation algorithm",
+       %{network: network, output: output} do
+
     input = %{
       network: network,
       output: output,

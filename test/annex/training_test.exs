@@ -4,7 +4,7 @@ defmodule ANNEx.Training.TrainingTest do
   alias ANNEx.{Math, Test, Training}
   alias ANNEx.Training.{Backpropagation, Config}
 
-  test "train/3 - signle dataset (1 epoch, backpropagation)" do
+  test "train/4 - trains network with single dataset (1 epoch, backpropagation)" do
     input = %{
       network: Test.Values.Network.before_backpropagation,
       training_config: %Config{
@@ -28,7 +28,7 @@ defmodule ANNEx.Training.TrainingTest do
     assert output == expected_output
   end
 
-  test "train/3 - single dataset (100 epochs, backpropagation)" do
+  test "train/4 - trains network with single dataset (100 epochs, backpropagation)" do
     input = %{
       network: Test.Values.Network.before_backpropagation,
       training_config: %Config{
@@ -52,7 +52,7 @@ defmodule ANNEx.Training.TrainingTest do
     assert output == expected_output
   end
 
-  test "train/3 - multiple datasets (1 epoch, backpropagation)" do
+  test "train/4 - trains network with multiple datasets (1 epoch, backpropagation)" do
     input = %{
       network: Test.Values.Network.before_backpropagation,
       training_config: %Config{

@@ -5,5 +5,5 @@ defmodule ANNEx.Math.Sigmoid do
   end
 
   def call(x), do: Definition.function(x)
-  def call(:derivative, x), do: Definition.derivative(x)
+  def call(x, :derivative), do: Definition.derivative(x)
 end

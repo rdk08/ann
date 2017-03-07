@@ -4,13 +4,13 @@ defmodule ANNEx.NeuronTest do
   alias ANNEx.{Math, Neuron, Signal}
   alias ANNEx.Test.Fake
 
-  test "build/0" do
+  test "build/0 - builds initial neuron" do
     output = Neuron.build
     expected_output = %Neuron{signals: [], sum: 0}
     assert output == expected_output
   end
 
-  test "build/2" do
+  test "build/2 - builds neuron with signals" do
     input = %{
       signal_values: [0.5, 0.8, 0.25],
       io: %{random: Fake.Random}
@@ -29,7 +29,7 @@ defmodule ANNEx.NeuronTest do
     assert output == expected_output
   end
 
-  test "process/2" do
+  test "process/4 - processes input values (returns new neuron state)" do
     input = %{
       neuron: %Neuron{
         signals: [

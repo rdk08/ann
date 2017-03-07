@@ -4,19 +4,6 @@ defmodule ANNEx.SignalTest do
   alias ANNEx.Signal
   alias ANNEx.Test.Fake
 
-  test "build/2 - build initial signals" do
-    input = %{
-      values: [1, 0],
-      io: %{random: Fake.Random}
-    }
-    output = Signal.build(input.values, input.io)
-    expected_output = [
-      %Signal{value: 1, weight: 0.35},
-      %Signal{value: 0, weight: 0.35}
-    ]
-    assert output == expected_output
-  end
-
   test "build/2 - build initial signal" do
     input = %{
       value: 0.55,

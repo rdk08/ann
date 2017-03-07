@@ -3,14 +3,16 @@ defmodule ANNEx.Training do
   alias ANNEx.Training.{Config, Log}
 
   @doc """
-  Trains network - returns new network state.
+  Trains network based on provided configuration and datasets.
+  Returns new network state.
   """
-  def train(%Network{}=network, %Config{}=config, training_datasets, log_opts \\ []) do
-    %{method: method, epochs: epochs, params: params} = config
-    {network, _} = Enum.reduce(1..epochs, {network, 1}, fn (_, {network, epoch}) ->
+  @spec train(%Network{}, %Config{}, list(tuple) | tuple, keyword) :: %Network{}
+  def train(%Network{}=network, training_config, training_datasets, log_opts \\ []) do
+    %{method: method, epochs: epochs, params: params} = training_config
+    {network, _} = Enum.reduce(1..epochs, {network, 1}, fn (_, {network, epoch_num}) ->
       {network, errors} = epoch(network, method, params, training_datasets, log_opts)
-      Log.epoch(log_opts, epoch, errors)
-      {network, epoch+1}
+      Log.epoch(log_opts, epoch_num, errors)
+      {network, epoch_num+1}
     end)
     network
   end
@@ -29,7 +31,7 @@ defmodule ANNEx.Training do
   defp iteration(network, method, params, {input, exp_output}, log_opts) do
     {network, output} = Network.process(network, input)
     network = method.process(network, output, exp_output, params)
-    {_, output_after_training} = Network.process(network, input)
+    output_after_training = Network.process!(network, input)
     total_error = calculate_total_error(output_after_training, exp_output)
     Log.iteration(log_opts, input, output_after_training, exp_output, total_error)
     {network, total_error}
@@ -38,9 +40,11 @@ defmodule ANNEx.Training do
   defp calculate_total_error(output, exp_output) do
     output
     |> Enum.zip(exp_output)
-    |> Enum.map(fn {output, exp_output} ->
-       0.5*:math.pow(exp_output - output, 2)
-    end)
+    |> Enum.map(&calculate_squared_error/1)
     |> Enum.reduce(0, &(&2 + &1))
+  end
+
+  defp calculate_squared_error({output, exp_output}) do
+    0.5*:math.pow(exp_output - output, 2)
   end
 end
