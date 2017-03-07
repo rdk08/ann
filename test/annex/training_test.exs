@@ -1,8 +1,8 @@
 defmodule ANNEx.Training.TrainingTest do
   use ExUnit.Case, async: true
+
+  alias ANNEx.{Math, Test, Training}
   alias ANNEx.Training.{Backpropagation, Config}
-  alias ANNEx.Training
-  alias ANNEx.{Math, Test}
 
   test "train/3 - signle dataset (1 epoch, backpropagation)" do
     input = %{

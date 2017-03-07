@@ -1,16 +1,18 @@
 defmodule ANNEx.Neuron do
-  alias ANNEx.{Neuron, Signal, Random}
+  alias __MODULE__, as: Neuron
+  alias ANNEx.{Signal, Random}
 
-  defstruct [signals: [], sum: 0, output: 0, delta: nil]
+  defstruct signals: [],
+            sum: 0,
+            output: 0,
+            delta: nil
 
   @io %{random: Random}
 
   @doc """
   Builds initial neuron.
   """
-  def build do
-    %Neuron{}
-  end
+  def build, do: %Neuron{}
   def build([_|_]=signal_values, io \\ @io) do
     %Neuron{signals: Signal.build(signal_values, io)}
   end

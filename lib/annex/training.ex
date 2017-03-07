@@ -1,5 +1,6 @@
 defmodule ANNEx.Training do
-  alias ANNEx.{Network, Training.Config, Training.Log}
+  alias ANNEx.Network
+  alias ANNEx.Training.{Config, Log}
 
   @doc """
   Trains network - returns new network state.

@@ -1,5 +1,6 @@
 defmodule ANNEx.RandomTest do
   use ExUnit.Case, async: true
+
   alias ANNEx.Random
 
   test "weight/0 - return random weight value" do

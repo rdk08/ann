@@ -1,5 +1,4 @@
 defmodule ANNEx.Math.Linear do
-
   defmodule Definition do
     def function(x), do: x
     def derivative(_), do: 1

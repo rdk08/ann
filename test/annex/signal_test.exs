@@ -1,5 +1,6 @@
 defmodule ANNEx.SignalTest do
   use ExUnit.Case, async: true
+
   alias ANNEx.Signal
   alias ANNEx.Test.Fake
 

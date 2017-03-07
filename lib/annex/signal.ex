@@ -1,7 +1,9 @@
 defmodule ANNEx.Signal do
-  alias ANNEx.{Random, Signal}
+  alias __MODULE__, as: Signal
+  alias ANNEx.Random
 
-  defstruct [:value, :weight]
+  defstruct value: nil,
+            weight: nil
 
   @io %{random: Random}
 
@@ -10,7 +12,7 @@ defmodule ANNEx.Signal do
   """
   def build(input, io \\ @io)
   def build([_|_]=values, io) do
-    Enum.map(values, &(Signal.build(&1, io)))
+    Enum.map(values, &Signal.build(&1, io))
   end
   def build(value, io) do
     %Signal{value: value, weight: io.random.weight}
@@ -32,12 +34,12 @@ defmodule ANNEx.Signal do
   Sums signal values and bias.
   """
   def sum(signals, bias) do
-    sum = signals |> Enum.reduce(0, &(&2 + (&1.value * &1.weight)))
+    sum = Enum.reduce(signals, 0, &(&2 + (&1.value * &1.weight)))
     sum + bias
   end
 
   @doc """
   Returns weights of given signals.
   """
-  def get_weights(signals), do: Enum.map(signals, &(Map.get(&1, :weight)))
+  def get_weights(signals), do: Enum.map(signals, &(&1.weight))
 end

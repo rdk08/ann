@@ -1,7 +1,9 @@
 defmodule ANNEx.Layer do
-  alias ANNEx.{Layer, Neuron, Random}
+  alias __MODULE__, as: Layer
+  alias ANNEx.{Neuron, Random}
 
-  defstruct [:bias, neurons: []]
+  defstruct bias: nil,
+            neurons: []
 
   @io %{random: Random}
 
@@ -22,11 +24,12 @@ defmodule ANNEx.Layer do
   Processes layer and returns new layer state.
   """
   def process({layer, values, activation_fn}) do
-    neurons = layer.neurons
-              |> Enum.map(&(Task.async(fn ->
-                 Neuron.process(&1, values, layer.bias, activation_fn)
-              end)))
-              |> Enum.map(&(Task.await(&1)))
+    neurons =
+      layer.neurons
+      |> Enum.map(&Task.async(fn ->
+         Neuron.process(&1, values, layer.bias, activation_fn)
+      end))
+      |> Enum.map(&Task.await/1)
     outputs = Enum.map(neurons, &(&1.output))
     {Layer.update(layer, %{neurons: neurons}), outputs, activation_fn}
   end

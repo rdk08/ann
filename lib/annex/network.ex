@@ -1,7 +1,9 @@
 defmodule ANNEx.Network do
-  alias ANNEx.{Layer, Network, Random}
+  alias __MODULE__, as: Network
+  alias ANNEx.{Layer, Random}
 
-  defstruct [:layers, :activation_fn]
+  defstruct layers: [],
+            activation_fn: nil
 
   @io %{random: Random}
 
@@ -9,7 +11,7 @@ defmodule ANNEx.Network do
   Builds initial network.
   """
   def build(%Network.Config{}=config, io \\ @io) do
-    layers = Enum.map(config.layers, &(Layer.build(&1, io)))
+    layers = Enum.map(config.layers, &Layer.build(&1, io))
     %Network{layers: layers, activation_fn: config.activation_fn}
   end
 

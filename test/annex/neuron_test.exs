@@ -1,5 +1,6 @@
 defmodule ANNEx.NeuronTest do
   use ExUnit.Case, async: true
+
   alias ANNEx.{Math, Neuron, Signal}
   alias ANNEx.Test.Fake
 

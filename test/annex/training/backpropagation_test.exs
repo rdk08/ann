@@ -1,5 +1,6 @@
 defmodule ANNEx.Training.BackpropagationTest do
   use ExUnit.Case, async: true
+
   alias ANNEx.{Math, Network}
   alias ANNEx.Test.Values
   alias ANNEx.Training.Backpropagation
