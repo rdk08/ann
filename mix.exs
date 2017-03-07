@@ -21,6 +21,7 @@ defmodule ANNEx.Mixfile do
   end
 
   defp deps do
-    [{:excoveralls, "~> 0.6", only: :test}]
+    [{:excoveralls, "~> 0.6", only: :test},
+     {:dialyxir, "~> 0.5", only: [:dev], runtime: false}]
   end
 end
