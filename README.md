@@ -9,11 +9,7 @@ network = ANN.Network.build(config)
 
 `network` is a simple struct that represents network state and can be inspected at any time.
 
-<<<<<<< HEAD
 Note: you can generate different network structure by changing `layers` list (values represent number of neurons in consecutive layers).
-=======
-Note: you can generate different network structure by changing `layers` list (values represents number of neurons in consecutive layers).
->>>>>>> add information to README file
 
 #### Processing input values ####
 
