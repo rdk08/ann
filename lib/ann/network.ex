@@ -10,13 +10,13 @@ defmodule ANN.Network do
   @type t :: %Network{layers: list(%Layer{}), activation_fn: module}
 
   @spec build(struct, map) :: t
-  def build(%Network.Config{}=config, io \\ @io) do
+  def build(%Network.Config{} = config, io \\ @io) do
     layers = Enum.map(config.layers, &Layer.build(&1, io))
     %Network{layers: layers, activation_fn: config.activation_fn}
   end
 
   @spec update(t, map) :: t
-  def update(%Network{}=network, %{}=changes) do
+  def update(%Network{} = network, %{} = changes) do
     Map.merge(network, changes)
   end
 
@@ -25,7 +25,7 @@ defmodule ANN.Network do
   state and network output.
   """
   @spec process(t, list(float)) :: {t, list(float)}
-  def process(%Network{layers: layers, activation_fn: activation_fn}=network, input) do
+  def process(%Network{layers: layers, activation_fn: activation_fn} = network, input) do
     {processed_layers, output} = process_layers(layers, input, activation_fn, [])
     {Network.update(network, %{layers: processed_layers}), output}
   end
@@ -39,10 +39,11 @@ defmodule ANN.Network do
     output
   end
 
-  defp process_layers([layer|remaining], input, activation_fn, processed_layers) do
+  defp process_layers([layer | remaining], input, activation_fn, processed_layers) do
     {layer, output, activation_fn} = Layer.process({layer, input, activation_fn})
-    process_layers(remaining, output, activation_fn, [layer|processed_layers])
+    process_layers(remaining, output, activation_fn, [layer | processed_layers])
   end
+
   defp process_layers([], output, _, processed_layers) do
     {Enum.reverse(processed_layers), output}
   end

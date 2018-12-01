@@ -7,22 +7,26 @@ defmodule ANN.Training do
   Returns new network state.
   """
   @spec train(%Network{}, %Config{}, list(tuple) | tuple, keyword) :: %Network{}
-  def train(%Network{}=network, training_config, training_datasets, log_opts \\ []) do
+  def train(%Network{} = network, training_config, training_datasets, log_opts \\ []) do
     %{method: method, epochs: epochs, params: params} = training_config
-    {network, _} = Enum.reduce(1..epochs, {network, 1}, fn (_, {network, epoch_num}) ->
-      {network, errors} = epoch(network, method, params, training_datasets, log_opts)
-      Log.epoch(log_opts, epoch_num, errors)
-      {network, epoch_num+1}
-    end)
+
+    {network, _} =
+      Enum.reduce(1..epochs, {network, 1}, fn _, {network, epoch_num} ->
+        {network, errors} = epoch(network, method, params, training_datasets, log_opts)
+        Log.epoch(log_opts, epoch_num, errors)
+        {network, epoch_num + 1}
+      end)
+
     network
   end
 
-  defp epoch(network, method, params, [_|_]=training_datasets, log_opts) do
-    Enum.reduce(training_datasets, {network, []}, fn (dataset, {network, errors}) ->
+  defp epoch(network, method, params, [_ | _] = training_datasets, log_opts) do
+    Enum.reduce(training_datasets, {network, []}, fn dataset, {network, errors} ->
       {network, error} = iteration(network, method, params, dataset, log_opts)
-      {network, [error|errors]}
+      {network, [error | errors]}
     end)
   end
+
   defp epoch(network, method, params, training_dataset, log_opts) do
     {network, error} = iteration(network, method, params, training_dataset, log_opts)
     {network, [error]}
@@ -45,6 +49,6 @@ defmodule ANN.Training do
   end
 
   defp calculate_squared_error({output, exp_output}) do
-    0.5*:math.pow(exp_output - output, 2)
+    0.5 * :math.pow(exp_output - output, 2)
   end
 end

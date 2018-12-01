@@ -5,7 +5,7 @@ defmodule ANN.NeuronTest do
   alias ANN.Test.Fake
 
   test "build/0 - builds initial neuron" do
-    output = Neuron.build
+    output = Neuron.build()
     expected_output = %Neuron{signals: [], sum: 0}
     assert output == expected_output
   end
@@ -15,7 +15,9 @@ defmodule ANN.NeuronTest do
       signal_values: [0.5, 0.8, 0.25],
       io: %{random: Fake.Random}
     }
+
     output = Neuron.build(input.signal_values, input.io)
+
     expected_output = %Neuron{
       delta: nil,
       output: 0,
@@ -26,6 +28,7 @@ defmodule ANN.NeuronTest do
       ],
       sum: 0
     }
+
     assert output == expected_output
   end
 
@@ -42,7 +45,9 @@ defmodule ANN.NeuronTest do
       bias: 0.5,
       activation_fn: Math.Sigmoid
     }
+
     output = Neuron.process(input.neuron, input.values, input.bias, input.activation_fn)
+
     expected_output = %Neuron{
       signals: [
         %Signal{value: 2, weight: 1},
@@ -51,6 +56,7 @@ defmodule ANN.NeuronTest do
       sum: 4.5,
       output: 0.9890130573694068
     }
+
     assert output == expected_output
   end
 end

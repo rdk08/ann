@@ -1,6 +1,6 @@
 defmodule ANN.Math.Sigmoid do
   defmodule Definition do
-    def function(x), do: (1 / (1 + :math.exp(-x)))
+    def function(x), do: 1 / (1 + :math.exp(-x))
     def derivative(x), do: function(x) * (1 - function(x))
   end
 

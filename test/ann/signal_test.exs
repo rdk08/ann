@@ -9,6 +9,7 @@ defmodule ANN.SignalTest do
       value: 0.55,
       io: %{random: Fake.Random}
     }
+
     output = Signal.build(input.value, input.io)
     expected_output = %Signal{value: 0.55, weight: 0.35}
     assert output == expected_output
@@ -22,14 +23,17 @@ defmodule ANN.SignalTest do
       ],
       changes: [
         %{value: 2},
-        %{value: 1},
+        %{value: 1}
       ]
     }
+
     output = Signal.update(input.signals, input.changes)
+
     expected_output = [
       %Signal{value: 2, weight: 0.5},
       %Signal{value: 1, weight: 0.5}
     ]
+
     assert output == expected_output
   end
 
@@ -42,6 +46,7 @@ defmodule ANN.SignalTest do
       ],
       bias: 0.5
     }
+
     output = Signal.sum(input.signals, input.bias)
     expected_output = 2.85
     assert output == expected_output

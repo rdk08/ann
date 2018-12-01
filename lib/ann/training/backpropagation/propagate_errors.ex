@@ -15,24 +15,27 @@ defmodule ANN.Training.Backpropagation.PropagateErrors do
     |> Enum.map(fn {output, expected_output} -> expected_output - output end)
   end
 
-  defp propagate_deltas([layer|rest], deltas, processed_layers, activation_fn) do
+  defp propagate_deltas([layer | rest], deltas, processed_layers, activation_fn) do
     neurons =
       layer.neurons
       |> Enum.zip(deltas)
       |> Enum.map(fn {neuron, delta} -> Neuron.update(neuron, %{delta: delta}) end)
+
     updated_layer = Layer.update(layer, %{neurons: neurons})
     previous_deltas = calculate_previous_deltas(updated_layer, deltas, activation_fn)
-    propagate_deltas(rest, previous_deltas, [updated_layer|processed_layers], activation_fn)
+    propagate_deltas(rest, previous_deltas, [updated_layer | processed_layers], activation_fn)
   end
+
   defp propagate_deltas([], _, processed_layers, _) do
     processed_layers
   end
 
   defp calculate_previous_deltas(%Layer{neurons: neurons}, deltas, activation_fn) do
     weights = Enum.map(neurons, &Signal.get_weights(&1.signals))
-    sums = Enum.map(neurons, &(&1.sum))
+    sums = Enum.map(neurons, & &1.sum)
+
     [weights, deltas, sums]
-    |> Enum.zip
+    |> Enum.zip()
     |> Enum.map(&calculate_delta_fractions(&1, activation_fn))
     |> sum_delta_fractions
   end
@@ -43,8 +46,8 @@ defmodule ANN.Training.Backpropagation.PropagateErrors do
 
   defp sum_delta_fractions(delta_fractions) do
     delta_fractions
-    |> Enum.zip
+    |> Enum.zip()
     |> Enum.map(&Tuple.to_list(&1))
-    |> Enum.map(&Enum.reduce(&1, 0, fn (fraction, acc) -> fraction + acc end))
+    |> Enum.map(&Enum.reduce(&1, 0, fn fraction, acc -> fraction + acc end))
   end
 end

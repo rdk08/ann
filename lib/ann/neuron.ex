@@ -9,24 +9,21 @@ defmodule ANN.Neuron do
 
   @io %{random: Random}
 
-  @type t :: %Neuron{
-              signals: list(%Signal{}),
-              sum: float,
-              output: float,
-              delta: float | nil}
+  @type t :: %Neuron{signals: list(%Signal{}), sum: float, output: float, delta: float | nil}
 
   @spec build() :: t
   def build do
     %Neuron{}
   end
+
   @spec build(nonempty_list(float), map) :: t
-  def build([_|_]=signal_values, io \\ @io) do
+  def build([_ | _] = signal_values, io \\ @io) do
     signals = Enum.map(signal_values, &Signal.build(&1, io))
     %Neuron{signals: signals}
   end
 
   @spec update(t, map) :: t
-  def update(%Neuron{}=neuron, %{}=changes), do: Map.merge(neuron, changes)
+  def update(%Neuron{} = neuron, %{} = changes), do: Map.merge(neuron, changes)
 
   @spec process(t, nonempty_list(float), float, module, map) :: t
   def process(neuron, values, bias, activation_fn, io \\ @io) do
@@ -38,8 +35,9 @@ defmodule ANN.Neuron do
   defp build_or_update_signals([], values, io) do
     Enum.map(values, &Signal.build(&1, io))
   end
-  defp build_or_update_signals([_|_]=signals, values, _io) do
-    signal_changes = Enum.map(values, &(%{value: &1}))
+
+  defp build_or_update_signals([_ | _] = signals, values, _io) do
+    signal_changes = Enum.map(values, &%{value: &1})
     Signal.update(signals, signal_changes)
   end
 
