@@ -1,12 +1,12 @@
 defmodule ANN.Training do
   alias ANN.Network
-  alias ANN.Training.{Config, Log}
+  alias ANN.Training.{Config, Dataset, Log}
 
   @doc """
   Trains network based on provided configuration and datasets.
   Returns new network state.
   """
-  @spec train(%Network{}, %Config{}, list(tuple) | tuple, keyword) :: %Network{}
+  @spec train(%Network{}, %Config{}, list(Dataset.t) | Dataset.t, keyword) :: %Network{}
   def train(%Network{} = network, training_config, training_datasets, log_opts \\ []) do
     %{method: method, epochs: epochs, params: params} = training_config
 
@@ -32,7 +32,7 @@ defmodule ANN.Training do
     {network, [error]}
   end
 
-  defp iteration(network, method, params, {input, exp_output}, log_opts) do
+  defp iteration(network, method, params, %Dataset{input: input, output: exp_output}, log_opts) do
     {network, output} = Network.process(network, input)
     network = method.process(network, output, exp_output, params)
     output_after_training = Network.process!(network, input)

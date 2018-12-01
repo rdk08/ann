@@ -2,7 +2,7 @@ defmodule ANN.Training.TrainingTest do
   use ExUnit.Case, async: true
 
   alias ANN.{Math, Test, Training}
-  alias ANN.Training.{Backpropagation, Config}
+  alias ANN.Training.{Backpropagation, Config, Dataset}
 
   test "train/4 - trains network with single dataset (1 epoch, backpropagation)" do
     input = %{
@@ -15,7 +15,7 @@ defmodule ANN.Training.TrainingTest do
         },
         epochs: 1
       },
-      training_dataset: {[0.05, 0.10], [0.01, 0.99]},
+      training_dataset: %Dataset{input: [0.05, 0.10], output: [0.01, 0.99]},
       log_opts: []
     }
 
@@ -42,7 +42,7 @@ defmodule ANN.Training.TrainingTest do
         },
         epochs: 100
       },
-      training_dataset: {[0.05, 0.10], [0.01, 0.99]},
+      training_dataset: %Dataset{input: [0.05, 0.10], output: [0.01, 0.99]},
       log_opts: []
     }
 
@@ -70,9 +70,9 @@ defmodule ANN.Training.TrainingTest do
         epochs: 1
       },
       training_datasets: [
-        {[0.01, 0.01], [0.99, 0.99]},
-        {[0.20, 0.20], [0.01, 0.01]},
-        {[0.99, 0.99], [0.99, 0.99]}
+        %Dataset{input: [0.01, 0.01], output: [0.99, 0.99]},
+        %Dataset{input: [0.20, 0.20], output: [0.01, 0.01]},
+        %Dataset{input: [0.99, 0.99], output: [0.99, 0.99]}
       ],
       log_opts: []
     }
